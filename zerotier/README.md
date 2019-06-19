@@ -24,5 +24,5 @@ sudo sed -i "s/ALL: ALL/#ALL: ALL/g" /etc/hosts.deny
 sudo sed -i "s/#ALL: ALL/ALL: ALL/g" /etc/hosts.deny
 ```
 
-sudo nmap -sS -T5 -v <IP ADDRESS>
+sudo nmap -sS -T5 -v <_IP ADDRESS_>
 
