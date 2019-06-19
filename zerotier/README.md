@@ -1,4 +1,4 @@
-# ZerTier Help with Cyber@UC's SOC
+# ZerTier Help
 
 https://zerotier.atlassian.net/wiki/spaces/SD/pages/7241787/PORT+ERROR+on+Mac
 
