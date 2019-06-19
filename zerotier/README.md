@@ -1,4 +1,4 @@
-# ZerTier Help
+# ZeroTier Help
 
 https://zerotier.atlassian.net/wiki/spaces/SD/pages/7241787/PORT+ERROR+on+Mac
 
