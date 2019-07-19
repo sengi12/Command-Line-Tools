@@ -695,8 +695,57 @@ bandit24@bandit:/tmp/pavan2$ ssh bandit25@localhost
 #### Level 25 > Level 26
 
 ```bash
-
+bandit25@bandit:~$ ls
+bandit26.sshkey
+bandit25@bandit:~$ ssh bandit26@localhost -i bandit26.sshkey
+Could not create directory '/home/bandit25/.ssh'.  
+  Enjoy your stay!
 ```
+
+```bash
+  _                     _ _ _   ___   __
+ | |                   | (_) | |__ \ / /
+ | |__   __ _ _ __   __| |_| |_   ) / /_
+ | '_ \ / _` | '_ \ / _` | | __| / / '_ \
+ | |_) | (_| | | | | (_| | | |_ / /| (_) |
+ |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/
+Connection to localhost closed.
+bandit25@bandit:~$
+```
+
+
+
+```bash
+bandit25@bandit:~$ cat /etc/passwd | grep bandit26
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+bandit25@bandit:~$ cat /usr/bin/showtext
+#!/bin/sh
+
+export TERM=linux
+
+more ~/text.txt
+exit 0
+```
+
+![](/Users/sengi/Desktop/Screen Shot 2019-07-19 at 4.16.39 PM.png)
+
+```bash
+v
+```
+
+![](/Users/sengi/Desktop/bandit2.png)
+
+```bash
+:set shell=/bin/bash
+```
+
+![](/Users/sengi/Desktop/bandit3.png)
+
+```bash
+:sh
+```
+
+
 
 #### Level 26 > Level 27
 
