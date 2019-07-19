@@ -727,13 +727,13 @@ more ~/text.txt
 exit 0
 ```
 
-![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit1.png)
+![](images/bandit1.png)
 
 ```bash
 v
 ```
 
-![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit2.png)
+![](images/bandit2.png)
 
 ```bash
 :set shell=/bin/bash
