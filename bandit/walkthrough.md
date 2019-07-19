@@ -1,0 +1,364 @@
+## Bandit Walkthrough (0-34)
+
+#### Level 0:
+
+```bash
+ssh bandit0@bandit.labs.overthewire.org -p 2220
+```
+
+`password: bandit0`
+
+#### Level 0 > Level 1
+
+```bash
+bandit0@bandit:~$ ls
+readme
+bandit0@bandit:~$ cat readme
+boJ9jbbUNNfktd78OOpsqOltutMc3MY1
+```
+
+#### Level 1 > Level 2
+
+```bash
+bandit1@bandit:~$ ls
+-
+bandit1@bandit:~$ cat ./-
+CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
+```
+
+#### Level 2 > Level 3
+
+```bash
+bandit2@bandit:~$ ls
+spaces in this filename
+bandit2@bandit:~$ cat "spaces in this filename"
+UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
+```
+
+#### Levle 3 > Level 4
+
+```bash
+bandit3@bandit:~$ ls
+inhere
+bandit3@bandit:~$ cd inhere/
+bandit3@bandit:~/inhere$ ls
+bandit3@bandit:~/inhere$ ls -la
+total 12
+drwxr-xr-x 2 root    root    4096 Oct 16  2018 .
+drwxr-xr-x 3 root    root    4096 Oct 16  2018 ..
+-rw-r----- 1 bandit4 bandit3   33 Oct 16  2018 .hidden
+bandit3@bandit:~/inhere$ cat .hidden
+pIwrPrtPN36QITSp3EQaw936yaFoFgAB
+```
+
+#### Level 4 > Level 5
+
+```bash
+bandit4@bandit:~$ ls
+inhere
+bandit4@bandit:~$ cd inhere/
+bandit4@bandit:~/inhere$ ls -la
+total 48
+drwxr-xr-x 2 root    root    4096 Oct 16  2018 .
+drwxr-xr-x 3 root    root    4096 Oct 16  2018 ..
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file00
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file01
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file02
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file03
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file04
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file05
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file06
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file07
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file08
+-rw-r----- 1 bandit5 bandit4   33 Oct 16  2018 -file09
+bandit4@bandit:~/inhere$ file ./-*
+./-file00: data
+./-file01: data
+./-file02: data
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data
+bandit4@bandit:~/inhere$ cat ./-file07
+koReBOKuIDDepwhWk7jZC0RTdopnAYKh
+```
+
+#### Level 5 > Level 6
+
+```bash
+bandit5@bandit:~$ ls
+inhere
+bandit5@bandit:~$ cd inhere/
+bandit5@bandit:~/inhere$ ls -la
+total 88
+drwxr-x--- 22 root bandit5 4096 Oct 16  2018 .
+drwxr-xr-x  3 root root    4096 Oct 16  2018 ..
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere00
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere01
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere02
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere03
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere04
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere05
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere06
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere07
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere08
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere09
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere10
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere11
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere12
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere13
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere14
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere15
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere16
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere17
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere18
+drwxr-x---  2 root bandit5 4096 Oct 16  2018 maybehere19
+bandit5@bandit:~/inhere$ find ./ -size 1033c
+./maybehere07/.file2
+bandit5@bandit:~/inhere$ cat ./maybehere07/.file2
+DXjZPULLxYr17uwoI01bNLQbtFemEgo7
+```
+
+#### Level 6 > Level 7
+
+```bash
+bandit6@bandit:~$ ls
+bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c 2>/dev/null
+/var/lib/dpkg/info/bandit7.password
+bandit6@bandit:~$ cat /var/lib/dpkg/info/bandit7.password
+HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
+```
+
+#### Level 7 > Level 8
+
+```bash
+bandit7@bandit:~$ ls
+data.txt
+bandit7@bandit:~$ cat data.txt | grep millionth
+millionth	cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+```
+
+#### Level 8 > Level 9
+
+```bash
+bandit8@bandit:~$ ls
+data.txt
+bandit8@bandit:~$ cat data.txt | sort | uniq -u
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+```
+
+#### Level 9 > Level 10
+
+```bash
+bandit9@bandit:~$ ls
+data.txt
+bandit9@bandit:~$ strings data.txt | grep '='
+2========== the
+========== password
+>t=	yP
+rV~dHm=
+========== isa
+=FQ?P\U
+=	F[
+pb=x
+J;m=
+=)$=
+========== truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+iv8!=
+```
+
+#### Level 10 > Level 11
+
+```bash
+bandit10@bandit:~$ ls
+data.txt
+bandit10@bandit:~$ base64 -d data.txt
+The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
+```
+
+#### Level 11 > Level 12
+
+```bash
+bandit11@bandit:~$ ls
+data.txt
+bandit11@bandit:~$ cat data.txt | tr a-zA-Z n-za-mN-ZA-M
+The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
+```
+
+#### Level 12 > Level 13
+
+```bash
+bandit12@bandit:~$ ls
+data.txt
+bandit12@bandit:~$ file data.txt
+data.txt: ASCII text
+bandit12@bandit:~$ mkdir /tmp/stw
+bandit12@bandit:~$ cd /tmp/stw
+bandit12@bandit:/tmp/stw$ xxd -r ~/data.txt > data.txt
+bandit12@bandit:/tmp/stw$ file data.txt
+data.txt: gzip compressed data, was "data2.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+bandit12@bandit:/tmp/stw$ zcat data.txt > new
+bandit12@bandit:/tmp/stw$ ls
+data.txt  new
+bandit12@bandit:/tmp/stw$ file new
+new: bzip2 compressed data, block size = 900k
+bandit12@bandit:/tmp/stw$ bzip2 -d new
+bzip2: Can't guess original name for new -- using new.out
+bandit12@bandit:/tmp/stw$ ls
+data.txt  new.out
+bandit12@bandit:/tmp/stw$ file new.out
+new.out: gzip compressed data, was "data4.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+bandit12@bandit:/tmp/stw$ zcat new.out > evenNewer
+bandit12@bandit:/tmp/stw$ ls
+data.txt  evenNewer  new.out
+bandit12@bandit:/tmp/stw$ file evenNewer
+evenNewer: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/stw$ tar -xvf evenNewer
+data5.bin
+bandit12@bandit:/tmp/stw$ file data5.bin
+data5.bin: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/stw$ tar -xvf data5.bin
+data6.bin
+bandit12@bandit:/tmp/stw$ file data6.bin
+data6.bin: bzip2 compressed data, block size = 900k
+bandit12@bandit:/tmp/stw$ bzip2 -d data6.bin
+bzip2: Can't guess original name for data6.bin -- using data6.bin.out
+bandit12@bandit:/tmp/stw$ ls
+data5.bin  data6.bin.out  data.txt  evenNewer  new.out
+bandit12@bandit:/tmp/stw$ file data6.bin.out
+data6.bin.out: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/stw$ tar -xvf data6.bin.out
+data8.bin
+bandit12@bandit:/tmp/stw$ file data8.bin
+data8.bin: gzip compressed data, was "data9.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
+bandit12@bandit:/tmp/stw$ zcat data8.bin > newest
+bandit12@bandit:/tmp/stw$ ls
+data5.bin  data6.bin.out  data8.bin  data.txt  evenNewer  newest  new.out
+bandit12@bandit:/tmp/stw$ file newest
+newest: ASCII text
+bandit12@bandit:/tmp/stw$ cat newest
+The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+```
+
+#### Level 13 > Level 14
+
+```bash
+bandit13@bandit:~$ ls
+sshkey.private
+bandit13@bandit:~$ ssh -i sshkey.private bandit14@localhost
+Could not create directory '/home/bandit13/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit13/.ssh/known_hosts).
+bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+```
+
+#### Level 14 > Level 15
+
+```bash
+bandit14@bandit:~$ telnet localhost 30000
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e
+Correct!
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+
+Connection closed by foreign host.
+```
+
+#### Level 15 > Level 16
+
+```bash
+bandit15@bandit:~$ openssl s_client -connect localhost:30001
+CONNECTED(00000003)
+depth=0 CN = localhost
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 CN = localhost
+verify return:1
+---
+Certificate chain
+ 0 s:/CN=localhost
+   i:/CN=localhost
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIICBjCCAW+gAwIBAgIEBadydTANBgkqhkiG9w0BAQUFADAUMRIwEAYDVQQDDAls
+b2NhbGhvc3QwHhcNMTkwMjI3MDg1MTQ5WhcNMjAwMjI3MDg1MTQ5WjAUMRIwEAYD
+VQQDDAlsb2NhbGhvc3QwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyEZzRA
++5ll7Ap2bwla+8x39mTviZKqrjnmLuTZj1U3mugt3G2JI5loXyjnFxlXnHUGy/xI
+OiACFOEJCce2VIkarMa1Cy13wtGuLoZxjcYSAIMzIOPykCh9+FJ89Tt1TIVXmO0C
+TJaxFMhKdX0ALZlxjN1+xoZgeOtN7yfhprjjAgMBAAGjZTBjMBQGA1UdEQQNMAuC
+CWxvY2FsaG9zdDBLBglghkgBhvhCAQ0EPhY8QXV0b21hdGljYWxseSBnZW5lcmF0
+ZWQgYnkgTmNhdC4gU2VlIGh0dHBzOi8vbm1hcC5vcmcvbmNhdC8uMA0GCSqGSIb3
+DQEBBQUAA4GBACNP1/t8pfANluA2MuoxCAkie0bDCUL/ZV7FDaH1YUAEG7wEZVFJ
+Pt8+6L8HkLYcuCPtjc2uxA8yEiqS7fiYRU26PmrQXzm09W0ah1pq+7NGMLKz596B
+AIpiTkVpA7YCUvGcYvz6yXS202e2GbLOulF2l9kx6hhhBCWubeqh2IjR
+-----END CERTIFICATE-----
+subject=/CN=localhost
+issuer=/CN=localhost
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Server Temp Key: X25519, 253 bits
+---
+SSL handshake has read 1019 bytes and written 269 bytes
+Verification error: self signed certificate
+---
+New, TLSv1.2, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+Server public key is 1024 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES256-GCM-SHA384
+    Session-ID: 70C2FD5AAD61D9B3D703D795E73F1A3F03F7E26A5A06BCA11C432CAC8F47A676
+    Session-ID-ctx:
+    Master-Key: D0520F9863B1041ADC76611C749DA98DA2919ED0222A4B4CE107886D432DC53F4E5831C502DAB5A41A675C71E8F972D0
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - df 12 86 44 83 09 d4 62-75 55 25 0c f8 4f 2c 53   ...D...buU%..O,S
+    0010 - f4 26 47 23 20 44 e5 8d-5a bb aa 04 e4 f4 ae 7f   .&G# D..Z.......
+    0020 - 61 26 24 4b 9f be fb 0a-c8 14 f6 02 7c d4 fa ad   a&$K........|...
+    0030 - cb 28 54 0b 92 f2 2d ec-71 3a 61 4e d7 44 ad fd   .(T...-.q:aN.D..
+    0040 - 82 c1 50 e4 f1 9b cd d7-6d a3 14 36 a5 88 58 90   ..P.....m..6..X.
+    0050 - da c8 bd f0 59 95 dc 5e-c9 80 11 35 2b dd 9c 08   ....Y..^...5+...
+    0060 - 1d c5 27 5a 6b 2b 56 4d-63 8c a0 33 a5 2e ee 93   ..'Zk+VMc..3....
+    0070 - ff 27 05 05 4e b8 15 f6-86 45 45 f1 99 a2 6c 22   .'..N....EE...l"
+    0080 - 72 8d 1d 40 1e d1 2c a0-c9 03 35 01 b2 a9 c4 5f   r..@..,...5...._
+    0090 - 79 ce 8a 40 bb 05 39 22-a0 36 7b d5 80 c3 ce 56   y..@..9".6{....V
+
+    Start Time: 1563501441
+    Timeout   : 7200 (sec)
+    Verify return code: 18 (self signed certificate)
+    Extended master secret: yes
+---
+BfMYroe26WYalil77FoDi9qh59eK5xNr
+Correct!
+cluFn7wTiGryunymYOu4RcffSxQluehd
+
+closed
+```
+
+#### Level 16 > Level 17
+
+```bash
+
+```
+
+#### Level 17 > Level 18
+
+```bash
+
+```
