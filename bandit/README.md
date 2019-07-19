@@ -1,6 +1,8 @@
 ## Bandit Walkthrough (0-34)
 
-#### Level 0:
+#### Level 0
+
+> Simply ssh into bandit0@bandit.labs.overthewire.org using the password bandit0 like shown below.
 
 ```bash
 ssh bandit0@bandit.labs.overthewire.org -p 2220
@@ -9,6 +11,8 @@ ssh bandit0@bandit.labs.overthewire.org -p 2220
 `password: bandit0`
 
 #### Level 0 > Level 1
+
+> Now that we're in, we see that the readme file is located in the home directory. simply "cat" the file and collect the password.
 
 ```bash
 bandit0@bandit:~$ ls
@@ -19,6 +23,8 @@ boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 
 #### Level 1 > Level 2
 
+> After logging into level 1, we see there is a file with a special character as it's name. Special characters are treated differently than simple text file names. Using `./` we can read this file correctly.
+
 ```bash
 bandit1@bandit:~$ ls
 -
@@ -27,6 +33,8 @@ CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 ```
 
 #### Level 2 > Level 3
+
+> Now the filename has spaces in the name, so you can't simply write it out and expect the shell to read it properly. You must use quotations around the filename like so.
 
 ```bash
 bandit2@bandit:~$ ls
@@ -37,11 +45,14 @@ UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 
 #### Levle 3 > Level 4
 
+> We are told that the file is located in the directory labeled "inhere". Use the cd command to navigate to the directory as show below. (cd = <u>c</u>hange <u>d</u>irectory)
+>
+> We also know that the file is a hidden file so we use `ls -la` to view the contents of the directory.
+
 ```bash
 bandit3@bandit:~$ ls
 inhere
 bandit3@bandit:~$ cd inhere/
-bandit3@bandit:~/inhere$ ls
 bandit3@bandit:~/inhere$ ls -la
 total 12
 drwxr-xr-x 2 root    root    4096 Oct 16  2018 .
@@ -51,7 +62,15 @@ bandit3@bandit:~/inhere$ cat .hidden
 pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 ```
 
+*hint - if you are ever curious about a commands options simply type `man` and then the command.
+
+example: `man cd` or `man ls` 
+
 #### Level 4 > Level 5
+
+> We are told that our file is the ONLY human-readable file in the "inhere" directory. This sounds like a great job for the `file` command, which describes the file type of any file given to it. Here we navigate to the directory and use `file ./-*` to see ALL the file types.
+>
+> We are technically filtering through all the files in the directory when we run `file ./-` but when we add the `*`, we are saying "As long as my file starts with a `-` than I don't care what follows".
 
 ```bash
 bandit4@bandit:~$ ls
@@ -87,6 +106,8 @@ koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 ```
 
 #### Level 5 > Level 6
+
+> We are looking for a file with the following properties: human-readable, 1033 bytes, non-executable. We also notice that there are a bunch of directories and files within the directory this time. This sounds like we could use the `find` command. Simply running `find ./ -size 1033c`, we can search all the directories and files and filter our results to just files with the size of 1033 bytes.
 
 ```bash
 bandit5@bandit:~$ ls
@@ -124,6 +145,10 @@ DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 
 #### Level 6 > Level 7
 
+> We are told the password can be "anywhere" on the server and that it has the following properties: owned by user bandit7, owned by group bandit6, 33 bytes. This is perfect for `find` as well! using `find /`, we can search the entirety of the server and filter our results with the following options: `-user`, `-group`, `-size`. 
+>
+> We also added `2>/dev/null` to help clean up garbage returns and allow viewing of our password file amongst several others with the same attributes.
+
 ```bash
 bandit6@bandit:~$ ls
 bandit6@bandit:~$ find / -user bandit7 -group bandit6 -size 33c 2>/dev/null
@@ -134,6 +159,10 @@ HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 
 #### Level 7 > Level 8
 
+> We are now told that our password is in data.txt next to the word **millionth**. If you cat this file, you will notice quickly that it is waaaayyy too large to manually search. So instead of going through that headache we can "pipe" `|` the result of `cat` into a `grep` command filtering for the word `millionth`. 
+>
+> Pipes are great ways to clean up your code. when you "pipe" a command into the other, you are feeding the output of the first command into the input of the second command. 
+
 ```bash
 bandit7@bandit:~$ ls
 data.txt
@@ -143,6 +172,8 @@ millionth	cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 
 #### Level 8 > Level 9
 
+> Now we are tasked with looking for the ONLY line of text that is unique in our massive `data.txt` file. We can do this by "piping" a few commands into each other like so.
+
 ```bash
 bandit8@bandit:~$ ls
 data.txt
@@ -151,6 +182,8 @@ UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 ```
 
 #### Level 9 > Level 10
+
+> We are told to look for the line of text that contains `=`. Once again we can use grep to show all the lines containing a `=`.
 
 ```bash
 bandit9@bandit:~$ ls
@@ -172,6 +205,8 @@ iv8!=
 
 #### Level 10 > Level 11
 
+> Now our data.txt file is base64 encoded. There is a built in command that we can use like so.
+
 ```bash
 bandit10@bandit:~$ ls
 data.txt
@@ -180,6 +215,8 @@ The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 ```
 
 #### Level 11 > Level 12
+
+> Now our data.txt file has been subject to a simple ROT13 encoding. There are many ways to fix this, but we will use the `tr` command like so.
 
 ```bash
 bandit11@bandit:~$ ls
@@ -190,6 +227,19 @@ The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 
 #### Level 12 > Level 13
 
+> This is not a challenging problem, but it is time consuming. We have been given a data.txt file that contains our password but has been compressed multiple times. First we will make our own working directory within `/tmp`. You can call this whatever you want.
+>
+> First we will need to revert the hex dump using `xxd -r` and then place the output of that into our new working directory. Now onto the repetitive part...
+>
+> 1. Use `file` to find out information about our new file.
+> 2. Check how it's compressed.
+>    * `gzip compressed data` => run `zcat` on the file and use `>` to make a new file
+>    * `bzip2 compressed data` => run `bzip2 -d` on the file
+>    * `POSIX tar archive (GNU)` => run `tar -xvf` on the file
+>    * `ASCII text` => YOU'RE DONE
+> 3. run `ls` to look for new file if you ran `zcat` or `bzip2`, start over with the new given file if you ran `tar`
+> 4. REPEAT 1-3 until you've found the password.
+
 ```bash
 bandit12@bandit:~$ ls
 data.txt
@@ -198,45 +248,54 @@ data.txt: ASCII text
 bandit12@bandit:~$ mkdir /tmp/stw
 bandit12@bandit:~$ cd /tmp/stw
 bandit12@bandit:/tmp/stw$ xxd -r ~/data.txt > data.txt
+
 bandit12@bandit:/tmp/stw$ file data.txt
 data.txt: gzip compressed data, was "data2.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
 bandit12@bandit:/tmp/stw$ zcat data.txt > new
 bandit12@bandit:/tmp/stw$ ls
 data.txt  new
+
 bandit12@bandit:/tmp/stw$ file new
 new: bzip2 compressed data, block size = 900k
 bandit12@bandit:/tmp/stw$ bzip2 -d new
 bzip2: Can't guess original name for new -- using new.out
 bandit12@bandit:/tmp/stw$ ls
 data.txt  new.out
+
 bandit12@bandit:/tmp/stw$ file new.out
 new.out: gzip compressed data, was "data4.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
 bandit12@bandit:/tmp/stw$ zcat new.out > evenNewer
 bandit12@bandit:/tmp/stw$ ls
 data.txt  evenNewer  new.out
+
 bandit12@bandit:/tmp/stw$ file evenNewer
 evenNewer: POSIX tar archive (GNU)
 bandit12@bandit:/tmp/stw$ tar -xvf evenNewer
 data5.bin
+
 bandit12@bandit:/tmp/stw$ file data5.bin
 data5.bin: POSIX tar archive (GNU)
 bandit12@bandit:/tmp/stw$ tar -xvf data5.bin
 data6.bin
+
 bandit12@bandit:/tmp/stw$ file data6.bin
 data6.bin: bzip2 compressed data, block size = 900k
 bandit12@bandit:/tmp/stw$ bzip2 -d data6.bin
 bzip2: Can't guess original name for data6.bin -- using data6.bin.out
 bandit12@bandit:/tmp/stw$ ls
 data5.bin  data6.bin.out  data.txt  evenNewer  new.out
+
 bandit12@bandit:/tmp/stw$ file data6.bin.out
 data6.bin.out: POSIX tar archive (GNU)
 bandit12@bandit:/tmp/stw$ tar -xvf data6.bin.out
 data8.bin
+
 bandit12@bandit:/tmp/stw$ file data8.bin
 data8.bin: gzip compressed data, was "data9.bin", last modified: Tue Oct 16 12:00:23 2018, max compression, from Unix
 bandit12@bandit:/tmp/stw$ zcat data8.bin > newest
 bandit12@bandit:/tmp/stw$ ls
 data5.bin  data6.bin.out  data8.bin  data.txt  evenNewer  newest  new.out
+
 bandit12@bandit:/tmp/stw$ file newest
 newest: ASCII text
 bandit12@bandit:/tmp/stw$ cat newest
@@ -244,6 +303,10 @@ The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 ```
 
 #### Level 13 > Level 14
+
+> Here we are looking for the ashley given. When we look in the home directory we see `sshkey.private`. We can use this to login into bandit14 like so.
+>
+> Once logged into user bandit14, we can check the given directory for the password. 
 
 ```bash
 bandit13@bandit:~$ ls
@@ -260,6 +323,8 @@ bandit14@bandit:~$ cat /etc/bandit_pass/bandit14
 
 #### Level 14 > Level 15
 
+> Now we need to submit the bandit14 password to port 30000. We can do this by using `telnet`. Once connected to the port with telnet, simply paste the password and there ya go!
+
 ```bash
 bandit14@bandit:~$ telnet localhost 30000
 Trying 127.0.0.1...
@@ -273,6 +338,8 @@ Connection closed by foreign host.
 ```
 
 #### Level 15 > Level 16
+
+> Now we have to do the same thing except over an ssl encrypted connection. You can do this by using `openssl s_client -connect localhost:30001`. Once connected, simply paste the password for bandit15 and there ya go!
 
 ```bash
 bandit15@bandit:~$ openssl s_client -connect localhost:30001
