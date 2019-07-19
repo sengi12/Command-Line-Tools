@@ -727,19 +727,19 @@ more ~/text.txt
 exit 0
 ```
 
-![](/Users/sengi/Desktop/Screen Shot 2019-07-19 at 4.16.39 PM.png)
+![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit1.png)
 
 ```bash
 v
 ```
 
-![](/Users/sengi/Desktop/bandit2.png)
+![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit2.png)
 
 ```bash
 :set shell=/bin/bash
 ```
 
-![](/Users/sengi/Desktop/bandit3.png)
+![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit3.png)
 
 ```bash
 :sh
