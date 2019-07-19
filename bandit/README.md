@@ -739,7 +739,7 @@ v
 :set shell=/bin/bash
 ```
 
-![](/Users/sengi/Documents/mygit/cmd-tools/bandit/images/bandit3.png)
+![](images/bandit3.png)
 
 ```bash
 :sh
