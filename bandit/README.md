@@ -420,6 +420,8 @@ closed
 
 #### Level 16 > Level 17
 
+> So we know that the correct port is somewher between 31000 and 32000. We can scan for listening/open ports using `nmap` as shown below. When I ran this command I only saw two open ports but there may very well be more when you try it.
+
 ```bash
 bandit16@bandit:~$ nmap -p 31000-32000 localhost
 
@@ -432,6 +434,10 @@ PORT      STATE SERVICE
 31790/tcp open  unknown
 
 Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
+
+# nmap does have a script scan to verify SSL, however it doesn't seem to work on this server.
+# I suggest simply running an openssl command to check each port. I already did this for you.
+
 bandit16@bandit:~$ openssl s_client -connect localhost:31790
 CONNECTED(00000003)
 depth=0 CN = localhost
@@ -500,7 +506,10 @@ SSL-Session:
     Timeout   : 7200 (sec)
     Verify return code: 18 (self signed certificate)
     Extended master secret: yes
----
+--- 
+
+# Here is where you simply paste the password for bandit16
+
 cluFn7wTiGryunymYOu4RcffSxQluehd
 Correct!
 -----BEGIN RSA PRIVATE KEY-----
@@ -536,10 +545,19 @@ vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
 -----END RSA PRIVATE KEY-----
 
 closed
+
+# Instead of a password for bandit17, we are given an ssh key.
+# In order to use this we need to paste into a file.
+# To do this, we will create our own dir in /tmp like so...
+
 bandit16@bandit:~$ mkdir /tmp/sos
 bandit16@bandit:~$ cd /tmp/sos
 bandit16@bandit:/tmp/sos$ touch sshkey.private
 bandit16@bandit:/tmp/sos$ vi sshkey.private
+
+# Paste into sshkey.private
+# Now give it the proper permissions and use it.
+
 bandit16@bandit:/tmp/sos$ chmod 600 sshkey.private
 bandit16@bandit:/tmp/sos$ ssh -i sshkey.private bandit17@localhost
 Could not create directory '/home/bandit16/.ssh'.
@@ -548,27 +566,38 @@ ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
 Are you sure you want to continue connecting (yes/no)? yes
 Failed to add the host to the list of known hosts (/home/bandit16/.ssh/known_hosts).
 bandit17@bandit:~$
+bandit17@bandit:~$ cat /etc/bandit_pass/bandit17
+xLYVMN9WE5zQ5vHacb0sZEVqbrp7nBTn
 ```
 
 #### Level 17 > Level 18
+
+> Based on the problem description, this sounds like a situation suited for `diff`. `diff` will show you the difference between two files. run like so...
 
 ```bash
 bandit17@bandit:~$ ls
 passwords.new  passwords.old
 bandit17@bandit:~$ diff passwords.new passwords.old
 42c42
-< kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+< kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd # < This is our password for Bandit18
 ---
 > hlbSBPAWJmL6WFDb06gpTx1pPButblOA
 ```
 
 #### Level 18 > Level 19
 
+> First thing we should do is try to ssh into bandit18!  …. Except when we do that we get this message...
+
 ```bash
 Enjoy your stay!
 
 Byebye !
 Connection to bandit.labs.overthewire.org closed.
+```
+
+> What happened? It appears that someone has edited the `.bashrc` file so that it will log you out every time you log in… Well we know the password is stored in a readme file in the home directory. So let's try to sneak that command in the next time we ssh.
+
+```bash
 ssh bandit18@bandit.labs.overthewire.org -p2220 cat readme
 This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
 
@@ -576,7 +605,11 @@ bandit18@bandit.labs.overthewire.org's password:
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 ```
 
+> voila!
+
 #### Level 19 > Level 20
+
+> First we run the given binary and we see the below prompt. When we follow the prompt we get the following output...
 
 ```bash
 bandit19@bandit:~$ ls
@@ -586,13 +619,21 @@ Run a command as another user.
   Example: ./bandit20-do id
 bandit19@bandit:~$ ./bandit20-do id
 uid=11019(bandit19) gid=11019(bandit19) euid=11020(bandit20) groups=11019(bandit19)
+
+# Let's exploit this... First we need to know who made this binary
+
 bandit19@bandit:~$ ./bandit20-do whoami
 bandit20
+
+# Now that we know it's bandit20 we can run the following command disguised as bandit20
+
 bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 ```
 
 #### ***Level 20 > Level 21
+
+> I've had trouble getting this to work myself but it's as simple as creating a TCP connection over a port on the server using 2 shells. This can be done with `netcat` or `nc`
 
 ```bash
 bandit20@melissa:~$ ls
@@ -602,10 +643,10 @@ Usage: ./suconnect <portnumber>
 This program will connect to the given port on localhost using TCP. If it receives the
 correct password from the other side, the next password is transmitted back.
  
-#In one shell do:
+#In one shell do: (This is our listener)
 bandit20@melissa:~$ nc -l 3222
  
-#In another shell do:
+#In another shell do: (This is how we establish the TCP connection)
 bandit20@melissa:~$ ls
 suconnect
 bandit20@melissa:~$ ./suconnect 3222
@@ -619,6 +660,8 @@ Password matches, sending next password
 ```
 
 #### Level 21 > Level 22
+
+> 
 
 ```bash
 bandit21@bandit:~$ cd /etc/cron.d/
