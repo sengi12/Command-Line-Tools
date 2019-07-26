@@ -39,13 +39,21 @@ Once you've installed PowerShell then you need to get familiar with it.
 
 To start a PowerShell terminal you simply type `pwsh` into the command line. You can then exit the terminal with `exit`. 
 
+#### Mac Installation Steps:
+
+- To follow directly along you will need `vim`
+
+```bash
+#Mac Vim Installation Instructions
+```
+
 - Now to creat our alias. First type in the below command:
 
 ```bash
 vim ~/.bash_profile
 ```
 
-> This works on my MacBook. it may not be the case if you are running Windows or Linux. I will figure those out soon but for now this is what I got.
+> This works on my MacBook. it may not be the case if you are running Windows. I will figure that out soon but for now this is what I got.
 
 - You are now within a vim editor. Press `i` in order to enter INPUT mode within the editor. Now that you can edit the file, add the following line to the top of the file.
 
@@ -64,3 +72,36 @@ source ~/.bash_profile
 - Now that the file has been reloaded, you are ready to use the alias! Simply press `l` in any directory to test if it worked properly! 
 
 NOTE that this does take a second to process since you are entering PowerShell, executing a command, and then exiting PowerShell. 
+
+#### Linux (Ubuntu) Installation Steps:
+
+- To follow directly along you will need `vim`
+
+```bash
+sudo apt-get install vim
+```
+
+- Now to creat our alias. First type in the below command:
+
+```bash
+vim ~/.bashrc
+```
+
+- You are now within a vim editor. Press `i` in order to enter INPUT mode within the editor. Now that you can edit the file, add the following line to the top of the file.
+
+```bash
+alias l='pwsh -Command "dir -Force"'
+```
+
+- NOTE that `l` is simply my preference. You can use anything as your alias for this command.
+- Now press the `esc` key to exit INPUT mode. Now that you are not in INPUT mode, enter `:wq`. This will WRITE the changes made, and QUIT the editor.
+- Now we have to reload the `.bash-profile` file. simply enter the below line to do this:
+
+```bash
+source ~/.bashrc
+```
+
+- Now that the file has been reloaded, you are ready to use the alias! Simply press `l` in any directory to test if it worked properly! 
+
+NOTE that this does take a second to process since you are entering PowerShell, executing a command, and then exiting PowerShell. 
+
