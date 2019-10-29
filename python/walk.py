@@ -6,7 +6,7 @@ def find(name, path):
             return os.path.join(root, name)
 
 name = "cmd.exe"
-path = "C:\Program Files"
+path = "C:\\Program Files"
 
-print "Searching for",name,"in",path,"...\n"
-print "Output : ", find(name, path)
+print("Searching for",name,"in",path,"...\n")
+print("Output : ", find(name, path))
