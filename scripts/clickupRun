@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+nohup /home/sengi/Documents/clickup/app/clickup_x64.AppImage > /dev/null &
+disown
