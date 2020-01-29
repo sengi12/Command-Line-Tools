@@ -3,6 +3,13 @@ FILE=${1?Error: No file specified.
             
             Usage: typopen <filename>
             }
-echo "opening $FILE in typora..."
-nohup typora $FILE > /dev/null &
-disown
+if test -f "$FILE"; then
+    echo "opening $FILE in typora..."
+    nohup typora $FILE > /dev/null &
+    disown
+else
+    echo "creating $FILE in typora..."
+    touch $FILE
+    nohup typora $FILE > /dev/null &
+    disown
+fi
