@@ -42,7 +42,15 @@ disown
 
 # Opening any file from command line in typora
 
-Just like many, I love using typora to edit `.md` files. However I would like to easily open a file from the command line so I wrote a script to do just that.
+#### Linux (Ubuntu)
+
+> A version of this script that works with Mac is also in this repo under `scripts/osx/`
+
+Just like many, I love using typora to edit `.md` files. However I would like to easily open a file from the command line so I wrote a script to do just that. The benefit of this script is that it will redirect all the output of the function to `\dev\null` as well as disown it. This way you will see no output to the terminal and you can close the terminal without it closing typora.
+
+How it works:
+
+First it will check to see if the file given exists. If the file already exists, it will open it up in typora. Otherwise, it assumes you are creating a file and will create the file for you in the current working directory, then open it up in typora.
 
 ```
 #!/usr/bin/env bash
@@ -50,9 +58,16 @@ FILE=${1?Error: No file specified.
             
             Usage: typopen <filename>
             }
-echo "opening $FILE in typora..."
-nohup typora $FILE > /dev/null &
-disown
+if test -f "$FILE"; then
+    echo "opening $FILE in typora..."
+    nohup typora $FILE > /dev/null &
+    disown
+else
+    echo "creating $FILE in typora..."
+    touch $FILE
+    nohup typora $FILE > /dev/null &
+    disown
+fi
 ```
 
 *to see more scripts I've written for convenience, check out my scripts folder in this repo*
