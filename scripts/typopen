@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-FILE=${1?Error: No file specified. 
-            
-            Usage: typopen <filename>
-            }
-echo "opening $FILE in typora..."
-nohup typora $FILE > /dev/null &
-disown
