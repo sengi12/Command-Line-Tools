@@ -12,6 +12,7 @@ def delete(dest, filetype):
     o = os.listdir(dir_str)
     for item in o:
         if(item.endswith(filetype)):
+            print("rm: "+dir_str+item)
             os.remove(dir_str + item)
 def main():
     from optparse import OptionParser, OptionGroup
