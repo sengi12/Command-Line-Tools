@@ -1,0 +1,37 @@
+#!/usr/bin/env python2.7
+import os
+import sys
+exe = False
+def delete(dest, filetype):
+    global exe
+    exe = True
+    dir_str = dest
+    if(len(dir_str) < 1) :
+        print("empty string in file")
+        exit(0)
+    o = os.listdir(dir_str)
+    for item in o:
+        if(item.endswith(filetype)):
+            os.remove(dir_str + item)
+def main():
+    from optparse import OptionParser, OptionGroup
+    parser = OptionParser(
+                usage = "%prog [options]",
+                version="%prog 0.1",
+            )
+    parser.add_option(
+        "-t", "--typora", action="store_true",
+        dest="typora", default=None,
+        help="Delete all screenshots saved in typora's user images folder"
+    )
+    options, args = parser.parse_args()
+    # if len(args) not in [1, 2]:
+    #     parser.error("Please specify input and output file.")
+    if options.typora:
+        print("cleaning up screenshots in typora...")
+        dest = "/Users/sengi/Library/Application Support/typora-user-images/"
+        filetype = ".png"
+        delete(dest, filetype)
+    if not exe:
+        parser.print_help()
+main()
