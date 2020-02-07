@@ -74,3 +74,113 @@ fi
 
 ---
 
+## Useful Commands for Linux / Unix
+
+### Search entire file system for certain lines of text
+
+```bash
+find / -xdev -type f -print0 | xargs -0 grep -H "textToSearch"
+```
+
+The following commands are thanks to **Engineer Man**:
+
+ https://www.youtube.com/watch?v=Zuwa8zlfXSY&list=PLYDN2oal0Z_Lqrx2b41Z_xbbA5NvinC67&index=22&t=0s
+
+### Redo last command as root
+
+```bash
+sudo !!
+```
+
+### Open an editor to run a command
+
+```
+ctrl + x + e
+```
+
+### Create a super fast ram disk
+
+```bash
+$ mkdir -p /mnt/ram
+$ mount -t tmpfs tmpfs /mnt/ram -o 8192M
+```
+
+Example:
+
+```bash
+mnt$ mkdir ram
+mnt$ cd ram/
+ram$ dd if=/dev/zero of=test.iso bs=1M count=8000
+8000+0 records in
+8000+0 records out
+8388608000 bytes (8.4 GB, 7.8 GiB) copied, 44.2673 s, 189 MB/s
+ram$ rm test.iso
+ram$ cd ..
+mnt$ mount -t tmpfs tmpfs /mnt/ram -o 8192M
+mnt$ cd ram/
+ram$ dd if=/dev/zero of=test.iso bs=1M count=8000
+8000+0 records in
+8000+0 records out
+8388608000 bytes (8.4 GB, 7.8 GiB) copied, 2.59548 s, 3.2 GB/s
+```
+
+### Don't add command to history after you run it
+
+```bash
+$  ls # ls is an example, but notice the leading space.
+# add one space and it will not be recorded in history
+```
+
+### Fix a really long command you messed up
+
+```bash
+$ fc
+```
+
+opens last command in an editor where you can make your modifications
+
+### Creating tunnels with ssh
+
+```bash
+$ ssh -L 3337:127.0.0.1:6379 root@emkc.org -N
+```
+
+bind local port (3337) to remote host's (127.0.0.1) end port (6379) relative to the machine.
+
+Then connect using these credentials (root@emkc.org)
+
+After you run this, put it in the background with `^Z` and run:
+
+```bash
+$ redis-cli -p 3337
+127.0.0.1:3337>
+```
+
+This is a great way to access private resources without exposing that port publicly
+
+### Quickly create folders
+
+```bash
+$ mkdir -p folder/{sub1,sub2}/{sub1,sub2,sub3}
+```
+
+this above command creates 6 folders with one line
+
+```bash
+$ mkdir -p folder/{1..100}/{1..100}
+```
+
+this above command creates 10,000 folders with a single line
+
+### Intercept stdout and log to file
+
+```bash 
+$ cat chase.txt | tee -a log.txt | cat > /dev/null
+```
+
+### Exit terminal leaving all child processes running
+
+```bash
+$ disown -a && exit
+```
+
