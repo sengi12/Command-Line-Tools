@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]
+then
+    echo "Missing options:"
+    echo "(run search -h for help)"
+    echo ""
+    exit 0
+fi
+
+dir=/
+
+while getopts d:s:o:h OPTION; do
+    case $OPTION in
+        d)
+            dir=${OPTARG};;
+        s)
+            str=${OPTARG};;
+        o)
+            out=${OPTARG};;
+        h)
+            echo "Usage:"
+            echo "search -h "
+            echo "search -s <string>"
+            echo "search -d <directory> -s <string>"
+            echo "search -d <directory> -s <string> -o <output>"
+            echo ""
+            echo "   -d     directory to search. / is the default"
+            echo "   -s     string to search for in directory files"
+            echo "   -o     output file of findings. stdout is default"
+            echo "   -h     help (this output)"
+            exit 0
+            ;;
+    esac
+done
+if [ -z $str ] || [ -z "$str" ]
+then
+    echo "  -s  option is required. see -h for help"
+    exit 0
+fi
+if [[ ! -d $dir ]]
+then
+    echo "  -d  must be a valid directory. see -h for help"
+    exit 0
+fi
+if [ ! -z $out ]
+then
+    find $dir -xdev -type f -print0 | xargs -0 grep -H "$str" > $out
+    exit 0
+fi
+find $dir -xdev -type f -print0 | xargs -0 grep -H "$str"
