@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-nohup /home/sengi/Documents/android-studio/bin/studio.sh > /dev/null &
+nohup /home/sengi/bin/android-studio/bin/studio.sh > /dev/null &
 disown
