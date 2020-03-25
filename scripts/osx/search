@@ -45,7 +45,7 @@ then
 fi
 if [ ! -z $out ]
 then
-    find $dir -xdev -type f -print0 | xargs -0 grep -H "$str" > $out
+    sudo find $dir -xdev -type f -print0 | xargs -0 grep -H "$str" > $out
     exit 0
 fi
-find $dir -xdev -type f -print0 | xargs -0 grep -H "$str"
+sudo find $dir -xdev -type f -print0 | xargs -0 grep -H "$str"
