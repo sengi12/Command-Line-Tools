@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+IN=${1?Error: No input specified. 
+            
+            Usage: dec2hex <decimal>
+            }
+python -c "print(hex($IN).split('x')[-1])"
