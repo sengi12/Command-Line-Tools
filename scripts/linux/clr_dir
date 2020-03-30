@@ -34,6 +34,12 @@ def main():
             dest = "/Users/sengi/Library/Application Support/typora-user-images/"
             filetype = ".png"
             delete(dest, filetype)
+        elif(sys.platform == "linux2"):
+            print("cleaning up screenshots in typora...")
+            dest = "/home/sengi/Pictures/"
+            filetype = ".png"
+            delete(dest, filetype)
     if not exe:
         parser.print_help()
-main()
+if __name__ == "__main__":
+    main()
