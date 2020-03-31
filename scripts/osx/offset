@@ -28,8 +28,7 @@ import sys
 
 def calc_offset(initial, offset):
     d = diff(initial, offset)
-    bindiff = hex2bin(d, len(initial)*4)
-    twos = twos_comp(bindiff)
+    twos = twos_comp(d)
     out = bin2hex(twos)
     return(out)
 
@@ -53,8 +52,7 @@ def bin2hex(bindata):
     return '%0*X' % ((len(bindata) + 3) // 4, int(bindata, 2))
 
 def twos_comp(bindata):
-    a = '0000018b'
-    compl = abs(int(a,16)-pow(2,32))
+    compl = abs(int(bindata,16)-pow(2,32))
     result=hex(compl)
     bd = bin(int(result,16))
     return bd[2:]
