@@ -1,0 +1,89 @@
+#!/usr/bin/env python2.7
+import optparse
+import sys
+
+'''
+    offset calculation:
+    given:
+        - initial address
+        - offset address
+    output:
+        - relative address
+
+    example:
+        i = 0040077b
+        o = 004005f0
+        r = fffffe75
+        bin( r ) =      11111111111111111111111001110101
+        2C( bin(r) ) =  00000000000000000000000110001011
+        bin2hex( 2C(bin(r)) ) = 18b
+    
+    reversed:
+        diff(i, o) = 18b
+        hex2bin(18b) = 110001011
+        sign ext(110001011) = 00000000000000000000000110001011
+        2C(00000000000000000000000110001011) = 11111111111111111111111001110101
+        bin2hex(11111111111111111111111001110101) = fffffe75
+'''
+
+def calc_offset(initial, offset):
+    d = diff(initial, offset)
+    bindiff = hex2bin(d, len(initial)*4)
+    twos = twos_comp(bindiff)
+    out = bin2hex(twos)
+    return(out)
+
+def hex2dec(hex_str):
+    hex_int = int(hex_str, 16)
+    return hex_int
+    # return hex(hex_int)[2:]
+
+def diff(h1, h2):
+    diff = hex2dec(h2) - hex2dec(h1)
+    diff = abs(diff)
+    return hex(diff)[2:]
+
+def hex2bin(hexdata, num_of_bits):
+    # hexdata = "1a"
+    # num_of_bits = 8
+    scale = 16 ## equals to hexadecimal
+    return bin(int(hexdata, scale))[2:].zfill(num_of_bits)
+
+def bin2hex(bindata):
+    return '%0*X' % ((len(bindata) + 3) // 4, int(bindata, 2))
+
+def twos_comp(bindata):
+    a = '0000018b'
+    compl = abs(int(a,16)-pow(2,32))
+    result=hex(compl)
+    bd = bin(int(result,16))
+    return bd[2:]
+
+def main():
+    parser = optparse.OptionParser(
+                usage = "%prog -i [initial address] -o [offset address]",
+                version="%prog 0.1",
+            )
+    parser.add_option(
+        "-i", "--initial", type="string",
+        dest="initial", default=None,
+        help="Sets the initial address",
+    )
+    parser.add_option(
+        "-o", "--offset", type="string",
+        dest="offset", default=None,
+        help="Sets the offset address",
+    )
+
+    options, args = parser.parse_args()
+
+    if options.initial is None or options.offset is None:
+        parser.print_help()
+    else:
+        init = options.initial
+        offset = options.offset
+        print("initial address: \t"+init+"\noffset address:  \t"+offset)
+        rel = calc_offset(init, offset)
+        print("relative address:\t"+rel)
+
+main()
