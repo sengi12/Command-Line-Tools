@@ -48,4 +48,4 @@ then
     sudo find $dir -xdev -type f -print0 | xargs -0 grep -H "$str" > $out
     exit 0
 fi
-sudo find $dir -xdev -type f -print0 | xargs -0 grep -H "$str"
+sudo find $dir -xdev -type f -print0 | sudo xargs -0 grep -H "$str"
