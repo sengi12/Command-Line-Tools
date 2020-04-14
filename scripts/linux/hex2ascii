@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+IN=${1?Error: No input specified. 
+            
+            Usage: hex2dec <hexadecimal>
+            }
+python -c "print('$IN'.decode('hex'))"
