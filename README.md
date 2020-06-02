@@ -2,6 +2,12 @@
 
 This repo is dedicated to tools I've found useful on the command line
 
+<details>
+<summary>Working with Projects</summary>
+* [`Get the name and location on disk of the current project`](#get-the-name-and-location-on-disk-of-the-current-project)
+* [`List all programs in the current project`](#list-all-programs-in-the-current-project)
+</details>
+
 ---
 
 ### Create alias for powershell directory command
