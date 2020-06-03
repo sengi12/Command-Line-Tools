@@ -2,15 +2,13 @@
 
 This repo is dedicated to tools I've found useful on the command line
 
-<details>
-<summary>Working with Projects</summary>
-* [`Get the name and location on disk of the current project`](#get-the-name-and-location-on-disk-of-the-current-project)
-* [`List all programs in the current project`](#list-all-programs-in-the-current-project)
-</details>
-
 ---
 
 ### Create alias for powershell directory command
+
+- [Mac Installation Steps](#mac_install) 
+- [Linux Installation Steps](#linux_install)  
+- [Windows Installation Steps](#windows_install)
 
 > I love the layout of the powershell directory command due to how much detailed information you get in the output.
 
@@ -45,7 +43,7 @@ Once you've installed PowerShell then you need to get familiar with it.
 
 To start a PowerShell terminal you simply type `pwsh` into the command line. You can then exit the terminal with `exit`. 
 
-#### Mac Installation Steps:
+#### <a name="mac_install"></a>Mac Installation Steps:
 
 - To follow directly along you will need `vim`
 
@@ -79,7 +77,7 @@ source ~/.bash_profile
 
 NOTE that this does take a second to process since you are entering PowerShell, executing a command, and then exiting PowerShell. 
 
-#### Linux (Ubuntu) Installation Steps:
+#### <a name="linux_install"></a>Linux (Ubuntu) Installation Steps:
 
 - To follow directly along you will need `vim`
 
@@ -111,6 +109,6 @@ source ~/.bashrc
 
 NOTE that this does take a second to process since you are entering PowerShell, executing a command, and then exiting PowerShell. 
 
-#### Windows (10) Installation Steps:
+#### <a name="windows_install"></a>Windows (10) Installation Steps:
 
 > to be continued...
