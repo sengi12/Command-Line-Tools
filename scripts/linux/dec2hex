@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-IN=${1?Error: No input specified. 
+if [ -p /dev/stdin ]; then
+	read IN
+else
+	IN=${1?Error: No input specified. 
             
             Usage: dec2hex <decimal>
             }
+fi
 python -c "print(hex($IN).split('x')[-1])"

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+if [ -p /dev/stdin ]; then
+	read IN1
+else
+	IN1=${1?Error: No input specified.
+
+		Usage: hexcalc <hexadecimal> +/- <hexadecimal>
+						}
+	# OP=$2
+	# IN2=$3
+fi
+OP=$2
+IN2=$3
+echo $IN1 $OP $IN2
+if [[ "$OP" = + ]]; then
+	python -c "print(hex(int('$IN1', base=16) + int('$IN2', base=16)))"
+else
+	if [[ "$OP" = - ]];	then
+		python -c "print(hex(int('$IN1', base=16) - int('$IN2', base=16)))"
+	else
+		if [[ "$OP" = x ]];	then
+			python -c "print(hex(int('$IN1', base=16) * int('$IN2', base=16)))"
+		else
+			if [[ "$OP" = / ]];	then
+				python -c "print(hex(int('$IN1', base=16) / int('$IN2', base=16)))"
+			else
+				echo "Error: Please input +, -, x, or / for the operation"
+			fi
+		fi
+	fi
+fi
