@@ -3,8 +3,9 @@ if [ -p /dev/stdin ]; then
 	read IN
 else
 	IN=${1?Error: No input specified. 
+            This is for Hexadecimal 2 Decimal Conversion
             
-            Usage: hex2dec <hexadecimal>
+            Usage: h2d <hexadecimal>
             }
 fi
 python -c "print(int('$IN', base=16))"

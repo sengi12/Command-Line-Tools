@@ -3,8 +3,9 @@ if [ -p /dev/stdin ]; then
 	read IN
 else
 	IN=${1?Error: No input specified. 
+            This is for Decimal 2 Hexadecimal Conversion
             
-            Usage: dec2hex <decimal>
+            Usage: d2h <decimal>
             }
 fi
 python -c "print(hex($IN).split('x')[-1])"

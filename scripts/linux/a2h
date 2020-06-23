@@ -3,8 +3,9 @@ if [ -p /dev/stdin ]; then
 	read IN
 else
 	IN=${1?Error: No input specified. 
+            This is for ASCII to Hexadecimal Conversion
             
-            Usage: hex2dec <hexadecimal>
+            Usage: a2h <ASCII>
             }
 fi
 python -c "print('$IN'.encode('hex'))"

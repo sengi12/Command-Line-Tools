@@ -5,8 +5,9 @@ if [ -p /dev/stdin ]; then
 	IN2=$2
 else
 	IN1=${1?Error: No input specified.
+        This is for Hexadecimal Calculations
 
-		Usage: hexcalc <hexadecimal> +/- <hexadecimal>
+		Usage: hcalc <hexadecimal> +/- <hexadecimal>
 						}
 	OP=$2
 	IN2=$3

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+if [ -p /dev/stdin ]; then
+	read IN
+else
+	IN=${1?Error: No input specified. 
+            This is for Hexadecimal 2 Binary Conversion
+            
+            Usage: h2b <hexadecimal>
+            }
+fi
+python -c "print(bin(int('$IN', 16))[2:])"

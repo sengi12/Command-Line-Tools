@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+if [ -p /dev/stdin ]; then
+	read IN
+else
+	IN=${1?Error: No input specified. 
+            This if for Binary 2 Hexadecimal Conversion
+            
+            Usage: b2h <binary number>
+            }
+fi
+python -c "print('%0*X' % ((len('$IN') + 3) // 4, int('$IN', 2)))"
