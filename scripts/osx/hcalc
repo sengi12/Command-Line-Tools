@@ -14,16 +14,16 @@ else
 fi
 # echo $IN1 $OP $IN2
 if [[ "$OP" = + ]]; then
-	python -c "print(hex(int('$IN1', base=16) + int('$IN2', base=16)))"
+	python -c "print(hex(int('$IN1', base=16) + int('$IN2', base=16)).split('x')[-1])"
 else
 	if [[ "$OP" = - ]];	then
-		python -c "print(hex(int('$IN1', base=16) - int('$IN2', base=16)))"
+		python -c "print(hex(int('$IN1', base=16) - int('$IN2', base=16)).split('x')[-1])"
 	else
 		if [[ "$OP" = x ]];	then
-			python -c "print(hex(int('$IN1', base=16) * int('$IN2', base=16)))"
+			python -c "print(hex(int('$IN1', base=16) * int('$IN2', base=16)).split('x')[-1])"
 		else
 			if [[ "$OP" = / ]];	then
-				python -c "print(hex(int('$IN1', base=16) / int('$IN2', base=16)))"
+				python -c "print(hex(int('$IN1', base=16) / int('$IN2', base=16)).split('x')[-1])"
 			else
 				echo "Error: Please input +, -, x, or / for the operation"
 			fi
