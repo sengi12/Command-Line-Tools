@@ -7,7 +7,7 @@ else
 	IN1=${1?Error: No input specified.
         This is for Hexadecimal Calculations
 
-		Usage: hcalc <hexadecimal> +/- <hexadecimal>
+		Usage: hcalc <hexadecimal> +-x/ <hexadecimal>
 						}
 	OP=$2
 	IN2=$3
