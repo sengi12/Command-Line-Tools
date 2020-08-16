@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+if [ -p /dev/stdin ]; then
+	read IN
+else
+	IN=${1?Error: No input specified. 
+						This is for decyphering CPSR based off of 32-bit binary input
+						Built for working with 32-Bit ARM Architectures
+            
+            Usage: cpsr <binary number>
+						Usage: h2b <hexadecimal> | cpsr
+            }
+fi
+if [ ${#IN} -gt 32 ]; then
+	echo "No more than 32 bits"
+	exit;fi
+if [ ${#IN} -le 32  ]; then
+	len=${#IN}
+	max=32
+	len=$((max-len))
+	z=""
+	for i in $( seq 1 $len)
+  do 
+		z=$z"0"
+ 	done
+	IN=$z$IN
+fi
+printf "{ "
+N="${IN:0:1}"
+if [ $N -eq 1 ]; then
+	printf "N ";fi 
+Z="${IN:1:1}"
+if [ $Z -eq 1 ]; then
+	printf "Z ";fi
+C="${IN:2:1}"
+if [ $C -eq 1 ]; then
+	printf "C ";fi
+V="${IN:3:1}"
+if [ $V -eq 1 ]; then
+	printf "V ";fi
+I="${IN:24:1}"
+if [ $I -eq 1 ]; then
+	printf "I ";fi
+F="${IN:25:1}"
+if [ $F -eq 1 ]; then
+	printf "F ";fi
+M4="${IN:27:1}"
+if [ $M4 -eq 1 ]; then
+	printf "M4 ";fi
+M3="${IN:28:1}"
+if [ $M3 -eq 1 ]; then
+	printf "M3 ";fi
+M2="${IN:29:1}"
+if [ $M2 -eq 1 ]; then
+	printf "M2 ";fi
+M1="${IN:30:1}"
+if [ $M1 -eq 1 ]; then
+	printf "M1 ";fi
+M0="${IN:31:1}"
+if [ $M0 -eq 1 ]; then
+	printf "M0 ";fi
+echo "}"
